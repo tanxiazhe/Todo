@@ -37,12 +37,22 @@ Todo.prototype.get = function(callback) {
 };
 
 Todo.prototype.getAll = function(callback) {
-  TodoModel.find(function (err, todos) {
+  var wherestr ={};
+  var opt = {content:true, _id:false, show:true, __v:false };
+  var query = TodoModel.find({}).select('content -_id').sort({_id :-1});
+  query.exec(function (err, todos) {
     if (err) {
       return callback(err);
     }
     callback(null, todos);
   });
+
+  // TodoModel.find({},opt,function (err, todos) {
+  //   if (err) {
+  //     return callback(err);
+  //   }
+  //   callback(null, todos);
+  // });
 };
 
 
